@@ -5,6 +5,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 import LoginScreen from "./screens/LoginScreen";
 import RegisterScreen from "./screens/RegisterScreen";
 import Home from "./screens/Home";
+import AddChat from "./screens/AddChat";
 const Stack = createStackNavigator();
 // const globalScreenOptions={
 //   headerStyle:{
@@ -28,11 +29,12 @@ export default function App() {
           },
           headerTintColor: "white",
         }}
-        intitalRouteName="Home"
+        initialRouteName="Login"
       >
         <Stack.Screen name="Login" component={LoginScreen} />
-        <Stack.Screen name='Register' component={RegisterScreen} />
-        <Stack.Screen name='Home' component={Home} />
+        <Stack.Screen name="Register" component={RegisterScreen} />
+        <Stack.Screen name="Home" component={Home} />
+        <Stack.Screen name ="AddChat" component={AddChat}/>
       </Stack.Navigator>
     </NavigationContainer>
   );

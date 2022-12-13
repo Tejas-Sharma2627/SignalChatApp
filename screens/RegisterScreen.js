@@ -23,7 +23,7 @@ const RegisterScreen = ({ navigation }) => {
   };
   useLayoutEffect(() => {
     navigation.setOptions({
-      headerBackTitle: "SaxSux",
+      headerBackTitle: "Back",
     });
   }, [navigation]);
   return (

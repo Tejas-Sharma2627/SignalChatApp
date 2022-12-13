@@ -4,23 +4,26 @@ import { Button, Input, Image } from "react-native-elements";
 import { StatusBar } from "expo-status-bar";
 import { auth } from "../firebase";
 import { onAuthStateChanged } from "firebase/auth";
-const LoginScreen = ({navigation}) => {
+import { signInWithEmailAndPassword } from "firebase/auth";
+const LoginScreen = ({ navigation }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   useEffect(() => {
-    const unsubscribe= onAuthStateChanged(auth, (authUser) => {
+    const unsubscribe = onAuthStateChanged(auth, (authUser) => {
+      console.log(authUser);
       if (authUser) {
-        navigation.replace("Home");
+        navigation.replace("Home")
       }
     });
     return unsubscribe;
-  },[])
-  const signIn = () => {};
+  }, []);
+  const signIn = () => {
+    return signInWithEmailAndPassword(auth, email, password)
+      .then((authUser) => console.log(authUser))
+      .catch((error) => console.log(error));
+  };
   return (
-    <KeyboardAvoidingView
-      style={styles.container}
-      behaviour="padding"
-    >
+    <KeyboardAvoidingView style={styles.container} behaviour="padding">
       <StatusBar style="light" />
       <Image
         source={{
@@ -42,17 +45,19 @@ const LoginScreen = ({navigation}) => {
           type="password"
           value={password}
           onChangeText={(text) => setPassword(text)}
+          onSubmitEditing={signIn}
         />
-        
       </View>
       <Button containerStyle={styles.button} title="Login" onPress={signIn} />
-        <Button
-          containerStyle={styles.button}
-          type="outline"
-          title="Register"
-          onPress={() => {navigation.navigate("Register")}}
-        />
-      <View style={{height:100}}/>
+      <Button
+        containerStyle={styles.button}
+        type="outline"
+        title="Register"
+        onPress={() => {
+          navigation.navigate("Register");
+        }}
+      />
+      <View style={{ height: 100 }} />
     </KeyboardAvoidingView>
   );
 };
@@ -64,13 +69,13 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
-    padding:10,
+    padding: 10,
   },
   inputContainer: {
-    width:300,
+    width: 300,
   },
-  button:{
-    width:200,
-    marginTop:10,
-  }
+  button: {
+    width: 200,
+    marginTop: 10,
+  },
 });
